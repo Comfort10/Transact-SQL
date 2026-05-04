@@ -145,27 +145,27 @@ Summarize the Internet Sales by Subcategory and return the top 5 subcategories.
 3. Finally, the data should only include sales where the country is United States and the currency is US Dollar
 */
 
-SELECT TOP (5)
-	dps.EnglishProductSubcategoryName AS Subcategory, 
-	sum(fis.SalesAmount) AS SalesAmount
+select TOP (5)
+	dps.EnglishProductSubcategoryName as Subcategory, 
+	sum(fis.SalesAmount) as SalesAmount
 
-FROM FactInternetSales AS fis
-JOIN DimProduct AS dp
-	ON fis.ProductKey = dp.ProductKey
-JOIN DimGeography AS dg
-	ON fis.SalesTerritoryKey = dg.SalesTerritoryKey
-JOIN DimCurrency AS dc
-	ON fis.CurrencyKey = dc.CurrencyKey
-JOIN DimProductSubcategory AS dps
-	ON dp.ProductSubcategoryKey = dps.ProductSubcategoryKey
+from FactInternetSales as fis
+join DimProduct as dp
+	on fis.ProductKey = dp.ProductKey
+join DimSalesTerritory as st
+	on fis.SalesTerritoryKey = st.SalesTerritoryKey
+join DimCurrency as dc
+	on fis.CurrencyKey = dc.CurrencyKey
+join DimProductSubcategory as dps
+	on dp.ProductSubcategoryKey = dps.ProductSubcategoryKey
 
 
-WHERE dg.EnglishCountryRegionName = N'United States' 
+where st.SalesTerritoryCountry = N'United States' 
 	AND dc.CurrencyName = N'US Dollar'
 
-GROUP BY dps.EnglishProductSubcategoryName
+group by dps.EnglishProductSubcategoryName
 
-ORDER BY SalesAmount DESC
+order by SalesAmount desc
 
 
 /*
