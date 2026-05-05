@@ -177,6 +177,27 @@ It's performance review time. HR Europe need to see sales by sales representativ
 4. The query should be sorted by Employee Name and Sales Amount.
 */
 
+SELECT 
+	CONCAT(de.FirstName,' ', de.LastName) AS FullEmployeeName,
+	de.Title,
+	dc.CurrencyName,
+	SUM(frs.SalesAmount) AS TotalSalesAmount
+
+FROM FactResellerSales AS frs
+
+JOIN DimEmployee AS de
+	ON frs.EmployeeKey = de.EmployeeKey
+JOIN DimSalesTerritory AS dst
+	ON frs.SalesTerritoryKey = dst.SalesTerritoryKey
+JOIN DimCurrency AS dc
+	ON frs.CurrencyKey = dc.CurrencyKey
+
+
+WHERE de.Status = N'Current' AND dst.SalesTerritoryGroup = N'Europe'
+
+GROUP BY de.FirstName, de.LastName, de.Title, dc.CurrencyName
+
+ORDER BY FullEmployeeName, TotalSalesAmount DESC
 
 /*
 EXERCISE EIGHT
