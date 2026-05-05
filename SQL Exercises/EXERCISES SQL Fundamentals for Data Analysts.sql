@@ -13,12 +13,9 @@ SELECT
     SalesOrderLineNumber AS InvoiceLineNumber,
     SalesAmount 
 
-
 FROM FactInternetSales
 
 WHERE CurrencyKey = 100
-
-
 
 /*
 EXERCISE TWO
@@ -38,7 +35,6 @@ GROUP BY SalesOrderNumber, TotalProductCost
 
 HAVING TotalProductCost > 2000
 
-
 /*
 EXERCISE THREE
 We have a new data analyst in the team who wants to see a unique list of sales territory keys. This will help her to better understand the database.
@@ -54,7 +50,6 @@ FROM FactInternetSales
 
 ORDER BY SalesTerritoryKey
 
-
 /*
 EXERCISE FOUR
 Sales territory 1 need a summary of their sales for the lead up period to Christmas.
@@ -66,33 +61,26 @@ SalesOrderLineNumber, SalesAmount and TaxAmount.
 */ 
 
 SELECT 
-
     SalesOrderNumber,
     SalesOrderLineNumber,
     SalesAmount,
     TaxAmt
-
 
 FROM FactInternetSales
 
 WHERE SalesTerritoryKey = 1 AND OrderDateKey LIKE '____12__'
 
-
 -- CORRECTIONS
 
 SELECT 
-
     SalesOrderNumber,
     SalesOrderLineNumber,
     SalesAmount,
     TaxAmt
 
-
 FROM FactInternetSales
 
 WHERE SalesTerritoryKey = 1 AND DATENAME(month, OrderDate) = N'December'
-
-
 
 /*
 EXERCISE FIVE
@@ -131,11 +119,9 @@ SELECT
     END AS NumberOfCarsOwned,
     EmailAddress AS EmailAddress
 
-
 FROM DimCustomer
 
 WHERE HouseOwnerFlag >= 1 AND NumberCarsOwned > 1 
-
 
 /*
 EXERCISE SIX
@@ -145,28 +131,27 @@ Summarize the Internet Sales by Subcategory and return the top 5 subcategories.
 3. Finally, the data should only include sales where the country is United States and the currency is US Dollar
 */
 
-select TOP (5)
-	dps.EnglishProductSubcategoryName as Subcategory, 
-	sum(fis.SalesAmount) as SalesAmount
+SELECT TOP (5)
+	dps.EnglishProductSubcategoryName AS Subcategory, 
+	SUM(fis.SalesAmount) AS SalesAmount
 
-from FactInternetSales as fis
-join DimProduct as dp
-	on fis.ProductKey = dp.ProductKey
-join DimSalesTerritory as st
-	on fis.SalesTerritoryKey = st.SalesTerritoryKey
-join DimCurrency as dc
-	on fis.CurrencyKey = dc.CurrencyKey
-join DimProductSubcategory as dps
-	on dp.ProductSubcategoryKey = dps.ProductSubcategoryKey
+FROM FactInternetSales AS fis
+JOIN DimProduct AS dp
+	ON fis.ProductKey = dp.ProductKey
+JOIN DimSalesTerritory AS st
+	ON fis.SalesTerritoryKey = st.SalesTerritoryKey
+JOIN DimCurrency AS dc
+	ON fis.CurrencyKey = dc.CurrencyKey
+JOIN DimProductSubcategory AS dps
+	ON dp.ProductSubcategoryKey = dps.ProductSubcategoryKey
 
 
-where st.SalesTerritoryCountry = N'United States' 
+WHERE st.SalesTerritoryCountry = N'United States' 
 	AND dc.CurrencyName = N'US Dollar'
 
-group by dps.EnglishProductSubcategoryName
+GROUP BY dps.EnglishProductSubcategoryName
 
-order by SalesAmount desc
-
+ORDER BY SalesAmount DESC
 
 /*
 EXERCISE SEVEN
