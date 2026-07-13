@@ -9,6 +9,9 @@
 -- Tables involved: Sales.Orders table
 
 
+-- Q3 
+-- Return employees with last name containing the letter 'e' twice or more
+-- Tables involved: HR.Employees table
 
 
 
