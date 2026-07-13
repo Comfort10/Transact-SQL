@@ -1,1 +1,3 @@
-
+-- Q1
+-- Return orders placed in June 2021
+-- Tables involved: TSQLV6 database, Sales.Orders table
